@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sharma & Co. — AI Supply Chain Intelligence</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .hero-visual { position:relative; padding:32px 0 16px; }
+    .hero-tagline { font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--accent-green); text-transform:uppercase; letter-spacing:2px; margin-bottom:8px; }
+    .firm-name { font-family:'IBM Plex Sans',sans-serif; font-size:0.65rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:3px; margin-bottom:4px; }
+    .layer-stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+    @media (max-width:1200px) { .layer-stats-grid { grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:600px) { .layer-stats-grid { grid-template-columns:1fr; } }
+    .layer-stat-card { background:var(--bg-card); border:1px solid var(--border-primary); border-radius:var(--radius-md); padding:14px 16px; display:flex; align-items:center; gap:12px; transition:all var(--transition-base); text-decoration:none; color:inherit; }
+    .layer-stat-card:hover { border-color:var(--border-accent); transform:translateY(-1px); }
+    .layer-stat-card .lsc-icon { font-size:1.3rem; }
+    .layer-stat-card .lsc-name { font-size:0.78rem; font-weight:500; color:var(--text-secondary); }
+    .layer-stat-card .lsc-change { margin-left:auto; font-family:'JetBrains Mono',monospace; font-size:0.88rem; font-weight:600; }
+    .custom-badge { font-family:'IBM Plex Mono',monospace; font-size:0.68rem; color:var(--accent-blue); padding:12px 0; text-align:center; }
+  </style>
+</head>
+<body>
+
+  <!-- TICKER STRIP -->
+  <div class="ticker-strip">
+    <div class="ticker-strip-inner" id="ticker-strip"></div>
+  </div>
+
+  <!-- TOP BAR -->
+  <nav class="topbar">
+    <div class="topbar-brand">
+      <span class="dot"></span>
+      <span>SHARMA & CO.</span>
+    </div>
+    <ul class="topbar-nav">
+      <li><a href="index.html" class="active">Dashboard</a></li>
+      <li><a href="pages/materials.html">Materials</a></li>
+      <li><a href="pages/energy.html">Energy</a></li>
+      <li><a href="pages/semicap.html">Semicap</a></li>
+      <li><a href="pages/chips.html">Chips</a></li>
+      <li><a href="pages/network.html">Network</a></li>
+      <li><a href="pages/datacenter.html">Data Centers</a></li>
+      <li><a href="pages/cloud.html">Cloud</a></li>
+      <li><a href="pages/cooling.html">Cooling</a></li>
+    </ul>
+    <div class="topbar-clock" id="topbar-clock"></div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="main-content">
+
+    <div class="dashboard-header hero-visual">
+      <div class="firm-name">Sharma & Co. · Research Division</div>
+      <h1>AI Infrastructure <span>Supply Chain</span> Intelligence</h1>
+      <p class="subtitle">
+        Deconstructing the AI economy from the ground up — tracking raw materials, energy, 
+        chip toolmakers, networking, data centers, and cloud compute. Follow the money backward.
+      </p>
+    </div>
+
+    <!-- PIPELINE -->
+    <div class="pipeline-section section">
+      <h2>Supply Chain Pipeline</h2>
+      <div class="pipeline-flow" id="pipeline-flow"></div>
+    </div>
+
+    <!-- LAYER STATS -->
+    <div class="section">
+      <div class="section-title">Layer Performance (Avg % Change)</div>
+      <div class="layer-stats-grid" id="layer-stats-grid"></div>
+    </div>
+
+    <!-- CUSTOM TICKER COUNT -->
+    <div class="custom-badge" id="custom-count-badge"></div>
+
+    <!-- TWO COL -->
+    <div class="grid-2 section">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Top Movers Across All Layers</span>
+          <span class="card-badge live">● LIVE</span>
+        </div>
+        <div id="top-movers"><div class="skeleton" style="height:280px"></div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">How To Read This Dashboard</span>
+        </div>
+        <div style="font-size:0.84rem;color:var(--text-secondary);line-height:1.7">
+          <p style="margin-bottom:12px">
+            <strong style="color:var(--text-primary)">The thesis:</strong> AI's real story isn't NVIDIA's stock price — 
+            it's the <em>entire supply chain</em> underneath it. This dashboard tracks 8 layers from atoms to APIs.
+          </p>
+          <p style="margin-bottom:12px">
+            <strong style="color:var(--text-primary)">Pipeline nodes</strong> show each layer's current health. 
+            Green = broadly up. Red = pressure. Amber = mixed signals.
+          </p>
+          <p style="margin-bottom:12px">
+            <strong style="color:var(--text-primary)">Click any layer</strong> to deep-dive into its watchlist, 
+            key metrics, and supply chain context.
+          </p>
+          <p style="margin-bottom:12px">
+            <strong style="color:var(--text-primary)">Custom tickers:</strong> On each layer page, add your own 
+            tickers to any category. They persist in your browser across sessions via localStorage.
+          </p>
+          <p>
+            <strong style="color:var(--text-primary)">Top movers</strong> surface the biggest moves across ALL layers, 
+            including your custom additions.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;padding:16px 0">
+      <span class="refresh-indicator">
+        <span id="last-updated" style="color:var(--text-muted)">Loading data...</span>
+      </span>
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    SHARMA & CO. · AI Supply Chain Intelligence · Data via Yahoo Finance · Not financial advice ·
+    <a href="https://github.com" target="_blank">GitHub</a>
+  </footer>
+
+  <script src="js/engine.js"></script>
+  <script>
+    (function() {
+      const flow = document.getElementById('pipeline-flow');
+      LAYER_ORDER.forEach((key, i) => {
+        const layer = LAYERS[key];
+        const node = document.createElement('a');
+        node.href = `pages/${layer.slug}.html`;
+        node.className = 'pipeline-node';
+        node.id = `node-${key}`;
+        node.style.setProperty('--node-color', layer.color);
+        node.innerHTML = `
+          <div class="node-icon">${layer.icon}</div>
+          <div class="node-name">${layer.name}</div>
+          <div class="node-tag">${layer.tag}</div>
+          <div class="node-status">
+            <span class="status-dot amber"></span>
+            <span class="status-text mixed">loading...</span>
+          </div>`;
+        flow.appendChild(node);
+        if (i < LAYER_ORDER.length - 1) {
+          const arrow = document.createElement('span');
+          arrow.className = 'pipeline-arrow';
+          arrow.textContent = '→';
+          flow.appendChild(arrow);
+        }
+      });
+
+      const grid = document.getElementById('layer-stats-grid');
+      LAYER_ORDER.forEach(key => {
+        const layer = LAYERS[key];
+        const card = document.createElement('a');
+        card.href = `pages/${layer.slug}.html`;
+        card.className = 'layer-stat-card';
+        card.id = `stat-${key}`;
+        const customCount = CustomTickers.get(key).length;
+        const badge = customCount > 0 ? ` <span style="font-size:0.6rem;color:var(--accent-blue)">+${customCount}</span>` : '';
+        card.innerHTML = `
+          <span class="lsc-icon">${layer.icon}</span>
+          <span class="lsc-name">${layer.name}${badge}</span>
+          <span class="lsc-change"><span class="stat-value" style="font-size:0.88rem">—</span></span>`;
+        grid.appendChild(card);
+      });
+
+      const strip = document.getElementById('ticker-strip');
+      const tickerSymbols = LAYER_ORDER.flatMap(k => CustomTickers.getMerged(k).slice(0, 2).map(t => t.symbol));
+      [...tickerSymbols, ...tickerSymbols].forEach(sym => {
+        const item = document.createElement('span');
+        item.className = 'ticker-item';
+        item.innerHTML = `<span class="t-symbol">${sym}</span> <span class="t-price">—</span>`;
+        strip.appendChild(item);
+      });
+
+      startClock();
+      loadSummaryDashboard();
+      setInterval(loadSummaryDashboard, 5 * 60 * 1000);
+    })();
+  </script>
+</body>
+</html>
